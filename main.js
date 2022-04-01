@@ -53,6 +53,8 @@ const pipBtn = controlsRight.querySelector('.ui__btn--pip');
 
 const fullscreenBtn = controlsRight.querySelector('.ui__btn--fullscreen');
 
+const headTitle = document.head.querySelector('title')
+
 const keyBinding = {
   'KeyI': function()
   {
@@ -613,6 +615,7 @@ function selectSeria()
 {
   selectedSeria = playlist[seria]
   title.textContent = `${animeTitle} | ${selectedSeria.name}`
+  headTitle.textContent = title.textContent
   video.poster = selectedSeria.preview
   video.src = selectedSeria.std
 }
