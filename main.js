@@ -614,7 +614,7 @@ addEventListener('load', async () =>
 function selectSeria()
 {
   selectedSeria = playlist[seria]
-  title.textContent = `${animeTitle} | ${selectedSeria.name}`
+  title.textContent = `${animeTitle} - ${selectedSeria.name}`
   headTitle.textContent = title.textContent
   video.poster = selectedSeria.preview
   video.src = selectedSeria.std
