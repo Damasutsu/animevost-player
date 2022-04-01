@@ -123,6 +123,7 @@ function clamp(val, min, max)
 function onLoad()
 {
   let data, id;
+  setProgressCurrent(0);
   setTimepointSearch(timepointSearch.offsetWidth / 2 + 8);
   title.textContent = !title.textContent ? 'Undefined Title' : title.textContent;
 };
@@ -138,6 +139,7 @@ video.addEventListener('loadeddata', () =>
 video.addEventListener('loadstart', () =>
 {
   player.classList.remove('loaded');
+  onLoad()
 });
 
 const setVolumeStorage = () => localStorage.setItem('volume', JSON.stringify(
