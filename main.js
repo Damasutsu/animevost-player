@@ -574,7 +574,7 @@ let animeTitle = ''
 playFrom[animeId] = 'undefined' === typeof playFrom[animeId] ?
 {} : playFrom[animeId]
 let seria = playFrom[animeId].seria || 0
-addEventListener('load', async () =>
+addEventListener('DOMContentLoaded', async () =>
 {
   {
     let response = await fetch('https://api.animetop.info/v1/info',
