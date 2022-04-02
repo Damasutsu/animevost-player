@@ -555,6 +555,8 @@ addEventListener('keydown', (e) =>
 {
   if (keyBinding.hasOwnProperty(e.code))
     keyBinding[e.code]()
+    if (document.activeElement.classList.contains('ui__btn') && e.code === 'Enter')
+      document.activeElement.click()
 })
 
 let playFrom = JSON.parse(localStorage.getItem('playFrom')) ||
@@ -639,6 +641,12 @@ addEventListener('DOMContentLoaded', async () =>
     playlistSeries.appendChild(playlistItem)
   }
   selectSeria()
+  const btns = [...document.querySelectorAll('.ui__btn')]
+
+  for (let i = 0; i < btns.length; i++)
+  {
+    btns[i].tabIndex = '0'
+  }
   video.addEventListener('loadeddata', () =>
   {
     if (playFrom[animeId].seria === seria && playFrom[animeId].time)
