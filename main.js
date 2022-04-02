@@ -198,10 +198,6 @@ function previousSeria()
     seria = seria - 1
     selectSeria()
   }
-  if (0 === seria)
-  {
-    backwardBtn.classList.toggle('hidden', true)
-  }
 }
 
 function toggleVideo()
@@ -217,10 +213,6 @@ function nextSeria()
     forwardBtn.classList.toggle('hidden', false)
     seria = seria + 1
     selectSeria()
-  }
-  if (playlist.length - 1 === seria)
-  {
-    forwardBtn.classList.toggle('hidden', true)
   }
 }
 
@@ -631,7 +623,7 @@ addEventListener('DOMContentLoaded', async () =>
     playlistItem.addEventListener('click', (e) =>
     {
       if (e.which !== 1) return
-      seria = playlistItem.dataset.seria
+      seria = Number(playlistItem.dataset.seria)
       if (!this.prevSelected)
       {
         this.prevSelected = playlistSeries.querySelector('.selected')
@@ -645,14 +637,6 @@ addEventListener('DOMContentLoaded', async () =>
       selectSeria()
     })
     playlistSeries.appendChild(playlistItem)
-  }
-  if (0 === seria)
-  {
-    backwardBtn.classList.toggle('hidden', true)
-  }
-  if (playlist.length - 1 === seria)
-  {
-    forwardBtn.classList.toggle('hidden', true)
   }
   selectSeria()
   video.addEventListener('loadeddata', () =>
@@ -668,6 +652,10 @@ function selectSeria()
 {
   if (selectedSeria !== playlist[seria])
   {
+    let isFirst = 0 === seria
+    let isLast = playlist.length - 1 === seria
+    backwardBtn.classList.toggle('hidden', isFirst)
+    forwardBtn.classList.toggle('hidden', isLast)
     selectedSeria = playlist[seria]
     title.textContent = `${animeTitle} - ${selectedSeria.name}`
     headTitle.textContent = title.textContent
