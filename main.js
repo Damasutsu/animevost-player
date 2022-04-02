@@ -553,8 +553,9 @@ addEventListener('mouseup', (e) =>
     volumeMove = false
     video.volume = (clamp(e.pageX, volumeContainer.getBoundingClientRect().left, volumeContainer.getBoundingClientRect().right) - volumeContainer.getBoundingClientRect().left) / 50
   }
-  if (playlistOn) {
-    if (e.target !== playlistBtn) togglePlaylist()
+  if (playlistOn)
+  {
+    if (!e.target.classList.contains('playlist--seria') && e.target !== playlistBtn) togglePlaylist()
   }
 })
 
@@ -665,11 +666,14 @@ addEventListener('load', async () =>
 
 function selectSeria()
 {
-  selectedSeria = playlist[seria]
-  title.textContent = `${animeTitle} - ${selectedSeria.name}`
-  headTitle.textContent = title.textContent
-  video.poster = selectedSeria.preview
-  video.src = selectedSeria.std
+  if (selectedSeria !== playlist[seria])
+  {
+    selectedSeria = playlist[seria]
+    title.textContent = `${animeTitle} - ${selectedSeria.name}`
+    headTitle.textContent = title.textContent
+    video.poster = selectedSeria.preview
+    video.src = selectedSeria.std
+  }
 }
 
 addEventListener('beforeunload', setPlayFrom)
