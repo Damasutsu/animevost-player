@@ -31,6 +31,7 @@ async function searchTitles()
   {
     return
   }
+  resultsAnime.innerHTML = ''
   let resultsTitles
   if (cache.has(searchTitle))
   {
@@ -38,7 +39,6 @@ async function searchTitles()
   }
   else
   {
-    resultsAnime.innerHTML = ''
     let response
     try
     {
