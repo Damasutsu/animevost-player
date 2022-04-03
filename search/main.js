@@ -104,7 +104,7 @@ function createAnimeElement(
   animeElement.classList.add('anime')
   animeElement.dataset.id = id
   let animePosterLink = document.createElement('a')
-  animePosterLink.href = `${location.pathname.replace('/index.html', '/')}anime/?id=${id}`
+  animePosterLink.href = `${location.pathname.replace('/index.html', '/').replace('/search', '')}anime/?id=${id}`
   let animePoster = document.createElement('img')
   animePoster.classList.add('anime__poster')
   animePoster.src = poster
@@ -112,7 +112,7 @@ function createAnimeElement(
   let animeTitle = document.createElement('a')
   animeTitle.classList.add('anime__title')
   animeTitle.textContent = title
-  animeTitle.href = `${location.pathname.replace('/index.html', '/')}anime/?id=${id}`
+  animeTitle.href = `${location.pathname.replace('/index.html', '/').replace('/search', '')}anime/?id=${id}`
   animePosterLink.appendChild(animePoster)
   animeElement.appendChild(animePosterLink)
   animeElement.appendChild(animeTitle)
