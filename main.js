@@ -14,10 +14,11 @@ const shownAnime = new Map()
 
 searchInput.value = ''
 
-searchInput.addEventListener('input', (e) =>
+searchInput.addEventListener('keyup', (e) =>
 {
-  clearTimeout(this.timeout)
-  this.timeout = setTimeout(searchTitles, 200)
+  if (e.code === 'Enter') {
+    searchTitles()
+  }
 })
 
 const controller = new AbortController();
@@ -26,7 +27,6 @@ const signal = controller.signal;
 async function searchTitles()
 {
   let searchTitle = searchInput.value.trim()
-  resultsAnime.innerHTML = ''
   if (searchTitle === '')
   {
     return
@@ -38,6 +38,7 @@ async function searchTitles()
   }
   else
   {
+    resultsAnime.innerHTML = ''
     let response
     try
     {
@@ -68,6 +69,7 @@ async function searchTitles()
   }
   for (let i = 0; i < resultsTitles.length; i++)
   {
+      if ([...resultsAnime.childNodes].find(anime => anime.dataset.id == resultsTitles[i].id)) continue
       resultsAnime.appendChild(createAnimeElement(
       {
         title: resultsTitles[i].title,
