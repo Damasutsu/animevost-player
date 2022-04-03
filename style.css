@@ -50,7 +50,6 @@ body {
 }
 
 .results, .results__anime, .results__404 {
-  margin-top: 1rem;
   display: flex;
   flex-flow: wrap;
   flex: 1 1 auto;
