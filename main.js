@@ -1,5 +1,3 @@
-if (id = new URLSearchParams(location.search).get('id')) location.replace(`${location.pathname.replace('/index.html', '/')}anime/?id=${id}`)
-
 const searchInput = document.querySelector('.search__input')
 
 const results = document.querySelector('.results')
