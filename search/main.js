@@ -12,15 +12,22 @@ const shownAnime = new Map()
 
 searchInput.value = ''
 
+const controller = new AbortController();
+const signal = controller.signal;
+
+let query
+
+if (query = new URLSearchParams(location.search).get('q')) {
+  searchInput.value = query
+  searchTitles()
+}
+
 searchInput.addEventListener('keyup', (e) =>
 {
   if (e.code === 'Enter') {
     searchTitles()
   }
 })
-
-const controller = new AbortController();
-const signal = controller.signal;
 
 async function searchTitles()
 {
@@ -58,6 +65,7 @@ async function searchTitles()
     }
     catch (e)
     {
+      console.log(e)
       return notFound()
     }
     resultsTitles = await response.json()
