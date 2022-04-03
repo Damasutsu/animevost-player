@@ -53,8 +53,11 @@ body {
   display: flex;
   flex-flow: wrap;
   flex: 1 1 auto;
-  align-items: center;
   justify-content: space-around;
+}
+
+.results__404 {
+  align-items: center;
 }
 
 .anime {
