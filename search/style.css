@@ -45,6 +45,10 @@ body {
   transition: outline 0.2s;
 }
 
+.search__input::-webkit-search-clear-button {
+  display: none;
+}
+
 .search__input:focus {
   outline-color: currentColor;
 }

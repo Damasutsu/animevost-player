@@ -17,16 +17,16 @@ const signal = controller.signal;
 
 let query
 
-if (query = new URLSearchParams(location.search).get('q')) {
+if (query = new URLSearchParams(location.search).get('q'))
+{
   searchInput.value = query
   searchTitles()
 }
 
-searchInput.addEventListener('keyup', (e) =>
+searchInput.addEventListener('search', (e) =>
 {
-  if (e.code === 'Enter') {
-    searchTitles()
-  }
+  searchInput.blur()
+  searchTitles()
 })
 
 async function searchTitles(push = true)
@@ -76,20 +76,22 @@ async function searchTitles(push = true)
   }
   for (let i = 0; i < resultsTitles.length; i++)
   {
-      if ([...resultsAnime.childNodes].find(anime => anime.dataset.id == resultsTitles[i].id)) continue
-      resultsAnime.appendChild(createAnimeElement(
-      {
-        title: resultsTitles[i].title,
-        poster: resultsTitles[i].urlImagePreview,
-        id: resultsTitles[i].id
-      }))
+    if ([...resultsAnime.childNodes].find(anime => anime.dataset.id == resultsTitles[i].id)) continue
+    resultsAnime.appendChild(createAnimeElement(
+    {
+      title: resultsTitles[i].title,
+      poster: resultsTitles[i].urlImagePreview,
+      id: resultsTitles[i].id
+    }))
   }
   resultsAnime.classList.toggle('hidden', false)
   resultsNotFound.classList.toggle('hidden', true)
 }
 
-addEventListener('popstate', () => {
-  if (query = new URLSearchParams(location.search).get('q')) {
+addEventListener('popstate', () =>
+{
+  if (query = new URLSearchParams(location.search).get('q'))
+  {
     searchInput.value = query
     searchTitles(false)
   }
