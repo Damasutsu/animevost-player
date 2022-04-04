@@ -29,7 +29,7 @@ searchInput.addEventListener('keyup', (e) =>
   }
 })
 
-async function searchTitles()
+async function searchTitles(push = true)
 {
   let searchTitle = searchInput.value.trim()
   if (searchTitle === '')
@@ -38,6 +38,7 @@ async function searchTitles()
   }
   resultsAnime.innerHTML = ''
   let resultsTitles
+  push && history.pushState(null, '', `?q=${searchTitle}`)
   if (cache.has(searchTitle))
   {
     resultsTitles = cache.get(searchTitle)
@@ -86,6 +87,13 @@ async function searchTitles()
   resultsAnime.classList.toggle('hidden', false)
   resultsNotFound.classList.toggle('hidden', true)
 }
+
+addEventListener('popstate', () => {
+  if (query = new URLSearchParams(location.search).get('q')) {
+    searchInput.value = query
+    searchTitles(false)
+  }
+})
 
 function notFound()
 {
