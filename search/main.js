@@ -80,7 +80,7 @@ async function searchTitles(push = true)
     resultsAnime.appendChild(createAnimeElement(
     {
       title: resultsTitles[i].title,
-      poster: resultsTitles[i].urlImagePreview,
+      poster: resultsTitles[i].urlImagePreview.replace('https://', 'http://'),
       id: resultsTitles[i].id
     }))
   }
@@ -114,7 +114,7 @@ function createAnimeElement(
   animeElement.classList.add('anime')
   animeElement.dataset.id = id
   let animePosterLink = document.createElement('a')
-  animePosterLink.href = `${location.pathname.replace('/index.html', '/').replace('/search', '')}anime/?id=${id}`
+  animePosterLink.href = `../anime/?id=${id}`
   let animePoster = document.createElement('img')
   animePoster.classList.add('anime__poster')
   animePoster.src = poster
@@ -122,7 +122,7 @@ function createAnimeElement(
   let animeTitle = document.createElement('a')
   animeTitle.classList.add('anime__title')
   animeTitle.textContent = title
-  animeTitle.href = `${location.pathname.replace('/index.html', '/').replace('/search', '')}anime/?id=${id}`
+  animeTitle.href = `../anime/?id=${id}`
   animePosterLink.appendChild(animePoster)
   animeElement.appendChild(animePosterLink)
   animeElement.appendChild(animeTitle)
