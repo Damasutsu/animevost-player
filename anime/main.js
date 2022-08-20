@@ -572,6 +572,7 @@ addEventListener('keydown', (e) =>
 
 let playFrom = JSON.parse(localStorage.getItem('playFrom')) ||
 {}
+let info
 let playlist = []
 let selectedSeria = {}
 let animeId = new URLSearchParams(location.search).get('id') || -1
@@ -596,7 +597,7 @@ addEventListener('DOMContentLoaded', async () =>
       referrerPolicy: "no-referrer",
       body: `id=${animeId}`
     })
-    let info = await response.json()
+    info = await response.json()
     if (info.state.status === 'fail') return
     animeTitle = info.data[0].title
   }
@@ -679,8 +680,8 @@ function selectSeria()
     selectedSeria = playlist[seria]
     title.textContent = `${animeTitle} - ${selectedSeria.name}`
     headTitle.textContent = title.textContent
-    video.poster = selectedSeria.preview
-    video.src = selectedSeria.std
+    video.poster = `https://media.animegost.org/${selectedSeria.preview.slice(25)}`
+    video.src = `https://${selectedSeria.std.replace(/http(s?):\/\//, '')}`
   }
 }
 
