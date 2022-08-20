@@ -359,7 +359,7 @@ function handleRate()
 
 let playerHiddenTimeOut
 
-player.addEventListener('mousemove', () =>
+player.addEventListener('pointermove', () =>
 {
   if (player.classList.contains('playing'))
   {
@@ -461,12 +461,12 @@ video.addEventListener('ratechange', handleRate)
 
 video.addEventListener('waiting', handlePause)
 
-progress.addEventListener('mouseenter', () =>
+progress.addEventListener('pointerenter', () =>
 {
   timepointSearch.classList.add('visible')
 })
 
-progress.addEventListener('mouseleave', () =>
+progress.addEventListener('pointerleave', () =>
 {
   if (!progressOn)
   {
@@ -475,13 +475,13 @@ progress.addEventListener('mouseleave', () =>
   }
 })
 
-progress.addEventListener('mousedown', (e) =>
+progress.addEventListener('pointerdown', (e) =>
 {
   if (e.which === 1) progressOn = true
-  window.dispatchEvent(new MouseEvent('mousemove', e))
+  window.dispatchEvent(new PointerEvent('pointermove', e))
 })
 
-progress.addEventListener('mousemove', (e) =>
+progress.addEventListener('pointermove', (e) =>
 {
   let time = map(clamp(e.pageX, progress.getBoundingClientRect().left, progress.getBoundingClientRect().right) - progress.getBoundingClientRect().left, 0, progress.offsetWidth, 0, video.duration)
   if (!isNaN(time))
@@ -492,12 +492,12 @@ progress.addEventListener('mousemove', (e) =>
   }
 })
 
-volume.addEventListener('mouseenter', () =>
+volume.addEventListener('pointerenter', () =>
 {
   volume.classList.add('hover')
 })
 
-volume.addEventListener('mouseleave', () =>
+volume.addEventListener('pointerleave', () =>
 {
   if (!volumeOn)
   {
@@ -505,51 +505,62 @@ volume.addEventListener('mouseleave', () =>
   }
 })
 
-volumeContainer.addEventListener('mousedown', (e) =>
+volumeContainer.addEventListener('pointerdown', (e) =>
 {
   if (e.which === 1) volumeOn = true
-  window.dispatchEvent(new MouseEvent('mousemove', e))
+  window.dispatchEvent(new PointerEvent('pointermove', e))
 })
 
-addEventListener('mousemove', (e) =>
-{
+const pointerMove = ({ pageX }) => {
   if (progressOn)
   {
     progressMove = true
-    let time = map((clamp(e.pageX, progress.getBoundingClientRect().left, progress.getBoundingClientRect().right) - progress.getBoundingClientRect().left), 0, progress.offsetWidth, 0, video.duration)
+    let time = map((clamp(pageX, progress.getBoundingClientRect().left, progress.getBoundingClientRect().right) - progress.getBoundingClientRect().left), 0, progress.offsetWidth, 0, video.duration)
     setProgressCurrent(time / video.duration * 100)
-    setTimepointSearch(clamp(e.pageX, timepointSearch.offsetWidth / 2 + 8, player.offsetWidth - timepointSearch.offsetWidth / 2 - 8))
+    setTimepointSearch(clamp(pageX, timepointSearch.offsetWidth / 2 + 8, player.offsetWidth - timepointSearch.offsetWidth / 2 - 8))
     timepointSearch.textContent = formatTime(time)
   }
   if (volumeOn)
   {
     volumeMove = true
-    video.volume = (clamp(e.pageX, volumeContainer.getBoundingClientRect().left, volumeContainer.getBoundingClientRect().right) - volumeContainer.getBoundingClientRect().left) / 50
+    video.volume = (clamp(pageX, volumeContainer.getBoundingClientRect().left, volumeContainer.getBoundingClientRect().right) - volumeContainer.getBoundingClientRect().left) / 50
     video.muted = false
   }
+}
+
+addEventListener('mousemove', pointerMove)
+addEventListener('touchmove', (e) => {
+  pointerMove({
+    pageX: e.touches[0].pageX
+  })
 })
 
-addEventListener('mouseup', (e) =>
+const pointerUp = (e) =>
 {
   if (progressOn)
   {
+    const pageX = 'pageX' in e ? e.pageX : e.changedTouches[0].pageX
     progressOn = false
-    if (progressMove) progress.dispatchEvent(new MouseEvent('mouseleave'))
+    if (progressMove) progress.dispatchEvent(new PointerEvent('pointerleave'))
     progressMove = false
-    video.currentTime = map((clamp(e.pageX, progress.getBoundingClientRect().left, progress.getBoundingClientRect().right) - progress.getBoundingClientRect().left), 0, progress.offsetWidth, 0, video.duration)
+    video.currentTime = map((clamp(pageX, progress.getBoundingClientRect().left, progress.getBoundingClientRect().right) - progress.getBoundingClientRect().left), 0, progress.offsetWidth, 0, video.duration)
   }
   if (volumeOn)
   {
+    const pageX = 'pageX' in e ? e.pageX : e.changedTouches[0].pageX
     volumeOn = false
-    if (volumeMove) volume.dispatchEvent(new MouseEvent('mouseleave'))
+    if (volumeMove) volume.dispatchEvent(new PointerEvent('pointerleave'))
     volumeMove = false
-    video.volume = (clamp(e.pageX, volumeContainer.getBoundingClientRect().left, volumeContainer.getBoundingClientRect().right) - volumeContainer.getBoundingClientRect().left) / 50
+    video.volume = (clamp(pageX, volumeContainer.getBoundingClientRect().left, volumeContainer.getBoundingClientRect().right) - volumeContainer.getBoundingClientRect().left) / 50
   }
   if (playlistOn)
   {
     if (!e.target.classList.contains('playlist--seria') && e.target !== playlistBtn) togglePlaylist()
   }
-})
+}
+
+addEventListener('mouseup', pointerUp)
+addEventListener('touchend', pointerUp)
 
 addEventListener('keydown', (e) =>
 {
